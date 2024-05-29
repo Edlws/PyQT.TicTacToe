@@ -53,8 +53,6 @@ class TicTacToe(QWidget):
         self.symbolColorX = Qt.GlobalColor.black
         self.symbolColor0 = Qt.GlobalColor.black
 
-
-
     def drawCircle(self, picture):
         pixmap = picture.pixmap()
         painter = QPainter(pixmap)
@@ -227,14 +225,14 @@ class TicTacToe(QWidget):
                 self.buttonMatrix[3*row+i][3*col+j].setEnabled(False) 
         centerPicture = self.pictureMatrix[3*row+1][3*col+1]
         centerPicture.setVisible(1)
-        centerPicture.setFixedSize(228,228)
-        centerPicture.setStyleSheet("margin: 0px; border: 0px solid gray;")
+        centerPicture.setFixedSize(233,228)
         self.grid.addWidget(centerPicture, row*3, col*3, 3, 3)
+        centerPicture.setAlignment(Qt.AlignmentFlag.AlignCenter)
         if player == 'X':
             self.drawBigCross(centerPicture)
         elif player == 'O':
             self.drawBigCircle(centerPicture)
-        
+
     def updateColors(self):
         for i in range(9):
             for j in range(9):
@@ -362,12 +360,11 @@ class TicTacToe(QWidget):
         for row in range(3):
             for col in range(3):
                 centerPicture = self.pictureMatrix[3 * row + 1][3 * col + 1]
-                if centerPicture.height() == 228 and centerPicture.width() == 228:
+                if centerPicture.height() == 228 and centerPicture.width() == 233:
                     centerPicture.setFixedSize(70, 70)
                     pixmap = QPixmap(70, 70)
                     pixmap.fill(Qt.GlobalColor.white)
                     centerPicture.setPixmap(pixmap)
-                    centerPicture.setStyleSheet("margin: 0px; border: 0px solid gray;")
                     self.grid.addWidget(centerPicture, 3 * row + 1, 3 * col + 1, 1, 1)
         self.statusLabel.setText('Player X\'s turn')
         for row in range(9):
