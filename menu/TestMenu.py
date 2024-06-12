@@ -19,7 +19,7 @@ class TestMenu(QMenuBar):
         self.stateMItem.addAction(self.loadMenuAction)
 
         self.saveMenuAction = QAction("Save")
-        self.stateMItem.triggered.connect(self.saveAction)
+        self.saveMenuAction.triggered.connect(self.saveAction)
         self.stateMItem.addAction(self.saveMenuAction)
         
         self.changeCrossColorAction = QAction("Change Cross color", self)

@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QMainWindow, QHBoxLayout, QPushButton
+from PyQt6.QtWidgets import QMainWindow, QHBoxLayout, QPushButton, QFileDialog
 from PyQt6.QtCore import Qt
 
 from menu.TestMenu import TestMenu
@@ -41,10 +41,14 @@ class TestWindow(QMainWindow):
         self.field.resetGame()    
     
     def loadGame(self):
-        self.field.loadGameState('save.json')
+        file = QFileDialog(self)
+        fileName = file.getOpenFileName()[0]
+        self.field.loadGameState(fileName)
 
     def saveGame(self):
-        self.field.saveGameState('save.json')
+        file = QFileDialog()
+        fileName = file.getOpenFileName()[0]
+        self.field.saveGameState(fileName)
 
     def setNames(self):
         self.field.changePlayerNames(self.player1.getName(), self.player2.getName())

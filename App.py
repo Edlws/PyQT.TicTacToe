@@ -8,5 +8,4 @@ wnd = TestWindow()
 
 
 wnd.show()
-
 sys.exit(app.exec())    
