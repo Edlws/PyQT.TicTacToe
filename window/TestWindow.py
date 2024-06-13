@@ -3,6 +3,7 @@ from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QAction
 
 from avatar.Avatar import avatar
+from menu.TestMenu import TestMenu
 from TicTacToe.TicTacToe import TicTacToe
 
 class TestWindow(QMainWindow):
@@ -10,7 +11,8 @@ class TestWindow(QMainWindow):
         super().__init__()
         
         self.setGeometry(0, 0, 1920, 1080)
-        self.menuInit()
+        self.menuBar = TestMenu(self)
+        self.connectMenu()
 
         self.nameButton = QPushButton(self)
         self.nameButton.setText("Change names")
@@ -56,28 +58,6 @@ class TestWindow(QMainWindow):
         self.player1.changeName()
         self.player2.changeName()
 
-    def menuInit(self):
-        self.menu = QMenuBar(self)
-        self.stateMItem = QMenu("State")
-        self.editMItem = QMenu("Edit")
-        self.menu.addMenu(self.stateMItem)
-        self.menu.addMenu(self.editMItem)
-        
-        self.loadMenuAction = QAction("Load")
-        self.loadMenuAction.triggered.connect(self.loadGame)
-        self.stateMItem.addAction(self.loadMenuAction)
-
-        self.saveMenuAction = QAction("Save")
-        self.saveMenuAction.triggered.connect(self.saveGame)
-        self.stateMItem.addAction(self.saveMenuAction)
-        
-        self.changeCrossColorAction = QAction("Change Cross color", self)
-        self.changeCrossColorAction.triggered.connect(self.changeCrossColor)
-        self.editMItem.addAction(self.changeCrossColorAction)
-
-        self.changeZeroColorAction = QAction("Change Zero color", self)
-        self.changeZeroColorAction.triggered.connect(self.changeZeroColor)
-        self.editMItem.addAction(self.changeZeroColorAction)
 
     def changeCrossColor(self):
         color = QColorDialog.getColor()
@@ -88,3 +68,18 @@ class TestWindow(QMainWindow):
         color = QColorDialog.getColor()
         if color.isValid():
             self.field.changeSymbol0Color(color)    
+
+    def connectMenu(self):
+        
+        self.menuBar.changeCrossColorAction.triggered.connect(self.changeCrossColor)
+        self.menuBar.editMItem.addAction(self.menuBar.changeCrossColorAction)
+
+        
+        self.menuBar.changeZeroColorAction.triggered.connect(self.changeZeroColor)
+        self.menuBar.editMItem.addAction(self.menuBar.changeZeroColorAction)
+
+        self.menuBar.saveMenuAction.triggered.connect(self.saveGame)
+        self.menuBar.stateMItem.addAction(self.menuBar.saveMenuAction)
+        
+        self.menuBar.loadMenuAction.triggered.connect(self.loadGame)
+        self.menuBar.stateMItem.addAction(self.menuBar.loadMenuAction)
