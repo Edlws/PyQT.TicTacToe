@@ -1,7 +1,7 @@
-from PyQt6.QtWidgets import QMainWindow, QHBoxLayout, QPushButton, QFileDialog
+from PyQt6.QtWidgets import QMainWindow, QHBoxLayout, QPushButton, QFileDialog, QWidget, QColorDialog, QMenu, QMenuBar
 from PyQt6.QtCore import Qt
+from PyQt6.QtGui import QAction
 
-from menu.TestMenu import TestMenu
 from avatar.Avatar import avatar
 from TicTacToe.TicTacToe import TicTacToe
 
@@ -10,7 +10,7 @@ class TestWindow(QMainWindow):
         super().__init__()
         
         self.setGeometry(0, 0, 1920, 1080)
-        self.menuBar = TestMenu(self)
+        self.menuInit()
 
         self.nameButton = QPushButton(self)
         self.nameButton.setText("Change names")
@@ -37,6 +37,7 @@ class TestWindow(QMainWindow):
         self.nameButton.clicked.connect(self.setNames)
         
         self.resetButton.clicked.connect(self.resetGame)
+    
     def resetGame(self):
         self.field.resetGame()    
     
@@ -55,10 +56,35 @@ class TestWindow(QMainWindow):
         self.player1.changeName()
         self.player2.changeName()
 
-    def setCrossColor(self, color):
-        self.field.changeSymbolXColor(color)
-    
-    def setZeroColor(self, color):
-        self.field.changeSymbol0Color(color)
-
+    def menuInit(self):
+        self.menu = QMenuBar(self)
+        self.stateMItem = QMenu("State")
+        self.editMItem = QMenu("Edit")
+        self.menu.addMenu(self.stateMItem)
+        self.menu.addMenu(self.editMItem)
         
+        self.loadMenuAction = QAction("Load")
+        self.loadMenuAction.triggered.connect(self.loadGame)
+        self.stateMItem.addAction(self.loadMenuAction)
+
+        self.saveMenuAction = QAction("Save")
+        self.saveMenuAction.triggered.connect(self.saveGame)
+        self.stateMItem.addAction(self.saveMenuAction)
+        
+        self.changeCrossColorAction = QAction("Change Cross color", self)
+        self.changeCrossColorAction.triggered.connect(self.changeCrossColor)
+        self.editMItem.addAction(self.changeCrossColorAction)
+
+        self.changeZeroColorAction = QAction("Change Zero color", self)
+        self.changeZeroColorAction.triggered.connect(self.changeZeroColor)
+        self.editMItem.addAction(self.changeZeroColorAction)
+
+    def changeCrossColor(self):
+        color = QColorDialog.getColor()
+        if color.isValid():
+            self.field.changeSymbolXColor(color)
+
+    def changeZeroColor(self):
+        color = QColorDialog.getColor()
+        if color.isValid():
+            self.field.changeSymbol0Color(color)    

@@ -1,5 +1,5 @@
-from PyQt6.QtWidgets import QWidget, QPushButton, QGridLayout, QLabel, QMessageBox, QFileDialog
-from PyQt6.QtGui import QPixmap, QPainter, QPen
+from PyQt6.QtWidgets import QWidget, QPushButton, QGridLayout, QLabel, QMessageBox
+from PyQt6.QtGui import QPixmap, QPainter, QPen, QColor
 from PyQt6.QtCore import Qt
 import json
 
@@ -277,6 +277,7 @@ class TicTacToe(QWidget):
 
     def changeSymbolXColor(self, color):
         self.symbolColorX = color 
+        print(color)
         for i in range(9):
             for j in range(9):
                 pixmap = QPixmap(70, 70)
@@ -380,6 +381,8 @@ class TicTacToe(QWidget):
             'gameState': self.gameState,
             'tacticalState': self.tacticalState,
             'tacticalFilled': self.tacticalFilled,
+            'zeroColor': self.symbolColor0.rgb(),
+            'crossColor': self.symbolColorX.rgb(),
         }
 
         with open(file, 'w') as file:
@@ -389,10 +392,16 @@ class TicTacToe(QWidget):
         self.resetGame()
         with open(file, 'r') as file:
             data = json.load(file)
+            color0 = QColor()
+            color0.setRgb(data['zeroColor'])
+            colorX = QColor()
+            colorX.setRgb(data['crossColor'])
             self.playerNames = data['playerNames']
             self.currentPlayer = data['currentPlayer']
             self.nextAllowed = tuple(data['nextAllowed'])
             self.gameState = data['gameState']
             self.tacticalState = data['tacticalState']
             self.tacticalFilled = data['tacticalFilled']
+            self.symbolColor0 = color0
+            self.symbolColorX = colorX
             self.updateColors()

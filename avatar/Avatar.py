@@ -5,8 +5,6 @@ from PyQt6.QtGui import QPixmap
 
 
 class avatar(QWidget):
-
-
     def __init__(self, parent=None):
         super().__init__(parent) 
         self.button1 = QPushButton(self)
